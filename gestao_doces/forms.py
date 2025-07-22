@@ -16,3 +16,8 @@ class ProdutoForm(forms.ModelForm):
         widgets = {
             "descricao": Textarea(attrs={'cols': 80, 'rows': 10})
         }
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(label="Nome do Úsuario", max_length=20)
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput)

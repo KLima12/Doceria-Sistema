@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'gestao/register_categoria.css' %}">
+    <script src="{% static 'gestao/register_categoria.js' %}"></script>
     <title>Register Categoria</title>
 </head>
 <body>
@@ -10,7 +13,7 @@
 
     <h2>Preencha o formulário de Categoria abaixo</h2>
     
-    <form action="." method="POST">
+    <form action="{% url 'register_categoria' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
            <p>Nome: {{form.nome}}</p> 
@@ -18,6 +21,7 @@
         
         <div class="form-group">
             <p>Imagem: {{form.imagem}}</p>
+            <img id="preview" src="" alt="" style="max-width: 200px;">
         </div>
 
         <button type="submit">Cadastrar</button>

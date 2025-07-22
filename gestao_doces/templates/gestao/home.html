@@ -6,7 +6,16 @@
     <title>Home</title>
 </head>
 <body>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h1>Bem vindo {{username}}</h1>
     <h1>Gestão dos produtos</h1>
     <a href="{% url 'register_categoria' %}">Registrar Categoria</a>
+    <a href="{% url 'view_all_categoria' %}">Visualizar categorias</a>
 </body>
 </html>
