@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import Textarea
-from .models import Categoria, Produto
+from .models import Categoria, Produto, ImagemProduct
 
 
 class CategoriaForm(forms.ModelForm):
@@ -16,6 +16,12 @@ class ProdutoForm(forms.ModelForm):
         widgets = {
             "descricao": Textarea(attrs={'cols': 80, 'rows': 10})
         }
+
+
+class ImagemForm(forms.ModelForm):
+    class Meta:
+        model = ImagemProduct
+        fields = ['imagem']
 
 
 class LoginForm(forms.Form):

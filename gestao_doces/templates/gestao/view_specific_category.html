@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'gestao/view_specific_category/view_specific_category.css' %}">
+    <title>Visualizar Categoria especifica</title>
+</head>
+<body>
+    {% if categoria %}
+            <h2 id="inicio">{{categoria.nome}}</h2>
+            <img src="{{categoria.imagem.url}}" alt="Imagem da categoria" width="200px">
+    {% endif %}       
+    
+    {% if produtos %}
+    {% for produto in produtos %}
+    <h2>Produtos da categoria</h2>
+        <ul>
+            <li><a href="#">{{produto.nome}}</a></li>
+        </ul>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -10,7 +10,7 @@
     
     {% for categoria in categorias %}
         <ul>
-            <li>{{categoria.nome}}</li>
+           <a href="{% url 'view_specific_category' categoria.id %}"> <li>{{categoria.nome}}</li></a>
         </ul>
     {% endfor %}
 </body>

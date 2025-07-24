@@ -15,14 +15,7 @@
     
     <form action="{% url 'register_categoria' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-           <p>Nome: {{form.nome}}</p> 
-        </div>
-        
-        <div class="form-group">
-            <p>Imagem: {{form.imagem}}</p>
-            <img id="preview" src="" alt="" style="max-width: 200px;">
-        </div>
+        {{form.as_table}}
 
         <button type="submit">Cadastrar</button>
     </form>

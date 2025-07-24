@@ -19,11 +19,11 @@
         {% csrf_token %}
 
         <div class="login_form">
-            <p>{{form.username}}</p>
+            <p>Nome: {{form.username}}</p>
         </div>
         
         <div class="login_form">
-            <p>{{form.password}}</p>
+            <p>Senha: {{form.password}}</p>
         </div>
         
         <input type="submit" value="Login">
