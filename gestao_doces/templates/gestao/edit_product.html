@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto</title>
+</head>
+<body>
+    <h1>Editar categoria</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <ul>
+                <li>{{message}}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+            
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form_group">
+            {{form.nome.label_tag}}
+            {{form.nome}}
+        </div>
+        <br>
+        <div class="form_group">
+            {{form.descricao.label_tag}}
+            {{form.descricao}}
+        </div>
+         <br>
+        <div class="form_group">
+            {{form.preco.label_tag}}
+            {{form.preco}}
+        </div>
+        <br>
+        <div class="form_group">
+            {{form.categoria.label_tag}}
+            {{form.categoria}}
+        </div>
+        <br>
+        <div class="form_group">
+            <label for="img">Imagem: </label>
+            {% for img in imagem %}
+                <img src="{{img.imagem.url}}" alt="Fotos da imagem" width="100px">
+                <a href="{% url 'delete_imagem' img.id%}">Deletar</a>
+                <label for="image">Adicionar imagens: <input type="file" name="imagens" multiple></label>
+            {% endfor %}
+        </div>
+        <br>
+        <button type="submit">Salvar</button>
+       
+    </form>
+</body>
+</html>

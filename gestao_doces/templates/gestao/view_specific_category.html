@@ -4,20 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'gestao/view_specific_category/view_specific_category.css' %}">
+    <link rel="stylesheet" href="{% static 'gestao/view_specific_category.css' %}">
     <title>Visualizar Categoria especifica</title>
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+            <ul>
+            <li>{{message}}</li>
+        </ul>
+        {% endfor %}
+    {% endif %}
     {% if categoria %}
             <h2 id="inicio">{{categoria.nome}}</h2>
-            <img src="{{categoria.imagem.url}}" alt="Imagem da categoria" width="200px">
+            <div class="imagem">
+                <img src="{{categoria.imagem.url}}" alt="Imagem da categoria" width="200px">
+            </div>
+            <div class="crud">
+                <div id="editar">
+                    <a href="{% url 'edit_category' categoria.id %}">Editar</a>
+                </div>
+                <div id="excluir">
+                    <a href="{% url 'delete_category' categoria.id %}">Excluir</a>
+                </div>
+            </div>
     {% endif %}       
     
     {% if produtos %}
     {% for produto in produtos %}
     <h2>Produtos da categoria</h2>
         <ul>
-            <li><a href="#">{{produto.nome}}</a></li>
+            <li><a href="{% url 'view_product' produto.id %}">{{produto.nome}}</a></li>
         </ul>
     {% endfor %}
     {% endif %}

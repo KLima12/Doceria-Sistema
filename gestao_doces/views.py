@@ -66,6 +66,29 @@ def view_specific_category(request, id):
 
 
 @login_required
+def edit_category(request, id):
+    """Editar a categoria"""
+    categoria = get_object_or_404(Categoria, id=id)
+    form = CategoriaForm(request.POST or None,
+                         request.FILES or None, instance=categoria)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Catégoria editada com sucesso!")
+        return redirect('view_specific_category', id=categoria.id)
+    return render(request, "gestao/edit_category.html", context={"form": form, "categoria": categoria})
+
+
+@login_required
+def delete_category(request, id):
+    categoria = get_object_or_404(Categoria, id=id)
+    if request.method == "POST":
+        categoria.delete()
+        messages.success(request, "Categoria deletada com sucesso!")
+        return redirect("view_all_categoria")
+    return render(request, "gestao/delete_category.html", context={"categoria": categoria})
+
+
+@login_required
 def register_product(request):
     if request.method == "POST":
         produto_form = ProdutoForm(request.POST)
@@ -73,7 +96,6 @@ def register_product(request):
             produto = produto_form.save()
             imagens = request.FILES.getlist('imagens')
             for img in imagens:
-                print(f"Imagem sendo interaddas {img}")
                 # Interando nas imagens e adicionando no banco de dados
                 ImagemProduct.objects.create(produto=produto, imagem=img)
                 print("Imagem criada no banco de dados")
@@ -88,6 +110,37 @@ def register_product(request):
         produto_form = ProdutoForm()
     return render(request, "gestao/register_product.html", context={"produto_form": produto_form})
 
-# @login_required
-# def view_product(request):
-#     produto =
+
+@login_required
+def view_product(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    imagens = ImagemProduct.objects.filter(produto=produto)
+    return render(request, "gestao/view_product.html", context={"produto": produto, "imagens": imagens})
+
+
+@login_required
+def edit_product(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    # Acessando a imagem relacionada ao produto
+    imagem = ImagemProduct.objects.filter(produto=produto)
+    form = ProdutoForm(request.POST or None, instance=produto)
+    if request.method == "POST":
+        imagens = request.FILES.getlist("imagens")
+        for img in imagens:
+            ImagemProduct.objects.create(produto=produto, imagem=img)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Produto editado com sucesso!")
+            return redirect("view_product", produto.id)
+    return render(request, "gestao/edit_product.html", context={"form": form, "imagem": imagem})
+
+
+@login_required
+def delete_imagem(request, id):
+    imagem = get_object_or_404(ImagemProduct, id=id)
+    if request.method == "POST":
+        produt_id = imagem.produto.id  # Acessando o id do produto para redirecionar depois
+        imagem.delete()
+        messages.success(request, "Imagem deletada com sucesso")
+        return redirect('edit_product', produt_id)
+    return render(request, "gestao/delete_imagem.html")

@@ -7,7 +7,13 @@
 </head>
 <body>
     <h1>Visualizar categorias</h1>
-    
+    {% if messages %}
+        {% for message in messages %}
+            <ul>
+                <li>{{message}}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
     {% for categoria in categorias %}
         <ul>
            <a href="{% url 'view_specific_category' categoria.id %}"> <li>{{categoria.nome}}</li></a>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Produto</title>
+</head>
+<body>
+    <h1>Produto: {{produto.nome}}</h1>
+    <h2>R$: {{produto.preco}}</h2>
+    <h3>Descrição: {{produto.descricao}}</h3>
+    {% for img in imagens %}
+        <img src="{{img.imagem.url}}" alt="Imagem do produto" width="200px">
+    {% endfor %}
+    <a href="{% url 'edit_product' produto.id %}">Editar</a>
+</body>
+</html>
