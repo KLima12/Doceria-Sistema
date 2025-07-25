@@ -28,11 +28,16 @@
                     <a href="{% url 'delete_category' categoria.id %}">Excluir</a>
                 </div>
             </div>
+
+            <div class="produtos">
+                <a href="{% url 'register_product' %}">Adicione produto</a>
+            </div>
     {% endif %}       
     
     {% if produtos %}
-    {% for produto in produtos %}
     <h2>Produtos da categoria</h2>
+    {% for produto in produtos %}
+    
         <ul>
             <li><a href="{% url 'view_product' produto.id %}">{{produto.nome}}</a></li>
         </ul>

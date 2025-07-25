@@ -39,11 +39,17 @@
         <br>
         <div class="form_group">
             <label for="img">Imagem: </label>
-            {% for img in imagem %}
-                <img src="{{img.imagem.url}}" alt="Fotos da imagem" width="100px">
-                <a href="{% url 'delete_imagem' img.id%}">Deletar</a>
+            {% if imagem %}
+                {% for img in imagem %}
+                    <img src="{{img.imagem.url}}" alt="Fotos da imagem" width="100px">
+                    <a href="{% url 'delete_imagem' img.id%}">Deletar</a>
+                    <label for="image">Adicionar imagens: <input type="file" name="imagens" multiple></label>
+                {% endfor %}
+            {% endif %}
+
+            {% if not imagem %}
                 <label for="image">Adicionar imagens: <input type="file" name="imagens" multiple></label>
-            {% endfor %}
+            {% endif %}
         </div>
         <br>
         <button type="submit">Salvar</button>

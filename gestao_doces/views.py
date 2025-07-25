@@ -26,6 +26,11 @@ def login(request):
     return render(request, "gestao/login.html", context={'form': form})
 
 
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
+
+
 @login_required
 def home(request):
     return render(request, "gestao/home.html")
@@ -133,6 +138,16 @@ def edit_product(request, id):
             messages.success(request, "Produto editado com sucesso!")
             return redirect("view_product", produto.id)
     return render(request, "gestao/edit_product.html", context={"form": form, "imagem": imagem})
+
+
+@login_required
+def delete_product(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    if request.method == "POST":
+        produto.delete()
+        messages.success(request, "Produto deletado com sucesso!")
+        return redirect('view_all_categoria')
+    return render(request, "gestao/delete_product.html")
 
 
 @login_required

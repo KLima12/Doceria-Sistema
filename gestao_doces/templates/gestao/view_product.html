@@ -13,5 +13,6 @@
         <img src="{{img.imagem.url}}" alt="Imagem do produto" width="200px">
     {% endfor %}
     <a href="{% url 'edit_product' produto.id %}">Editar</a>
+    <a href="{% url 'delete_product' produto.id %}">Excluir</a>
 </body>
 </html>
