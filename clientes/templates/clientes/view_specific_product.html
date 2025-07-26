@@ -12,5 +12,14 @@
     {% endfor %}
    <h2>{{product.descricao}}</h2>
    <h3>Preço: {{product.preco}}</h3>
+   
+   <form action="{% url 'adicionar_ao_carrinho' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="produto_id" value="{{product.id}}">
+    <label for="quantidade">Selecione a quantidade</label>
+    <input type="number" id="quantidadeProduto" name="quantidadeProduto" min="1" max="50" value="1" step="1">   <p id="valor">Valor: </p>
+    
+    <button type="submit">Adicionar</button>
+   </form>
 </body>
 </html>

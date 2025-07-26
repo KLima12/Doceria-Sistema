@@ -7,11 +7,16 @@ class CadastroClienteForm(forms.ModelForm):
 
     class Meta:
         model = Cliente
-        fields = ["nome", "email", "confirmar_senha",
-                  "senha", "telefone", "rua", "numero", "bairro"]
+        fields = ["nome", "email", "senha", "confirmar_senha",
+                  "telefone", "rua", "numero", "bairro"]
         widgets = {
             'senha': forms.PasswordInput(),
         }
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput)
 
 
 def clean(self):

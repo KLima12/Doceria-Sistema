@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro</title>
 </head>
 <body>
-    <form action="{% url 'cadastrar_cliente' %}" method="POST">
+    <form action="{% url 'cadastro' %}" method="POST">
+        {% csrf_token %}
         <table>
             {{form.as_table}}
         </table>
+        <button type="submit">Cadastrar</button>
     </form>
+
+    <a href="{% url 'login' %}">Já tem uma conta ? Clique aqui para logar</a>
 </body>
 </html>
