@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Produtos</title>
+</head>
+<body>
+    <h1>Todos produtos</h1>
+
+    {% for products in product %}
+        <ul>
+            <li>{{products.nome}}</li>
+            {% with imagem=products.imagens.all.first %}
+                {% if imagem %}
+                    <img src="{{imagem.imagem.url}}" alt="Imagens produto" width="100px">
+                {% endif %}
+            {% endwith %}
+        <a href="{% url 'view_specific_product' products.id %}">Ver produto</a>
+        </ul>
+    {% endfor %}
+</body>
+</html>

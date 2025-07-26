@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias</title>
+</head>
+<body>
+    <h1>Categorias</h1>
+    {% for categories in category %}
+        <ul>
+            <a href="{% url 'view_product_category' categories.id %}"><li>{{categories.nome}}</li></a>
+        </ul>
+    {% endfor %}
+</body>
+</html>
