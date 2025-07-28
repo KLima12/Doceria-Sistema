@@ -21,14 +21,18 @@ class Produto(models.Model):
         return self.nome
 
 
-class Carrinho(models.Model):
-    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class ImagemProduct(models.Model):
     produto = models.ForeignKey(
         Produto, on_delete=models.CASCADE, related_name="imagens")
     imagem = models.ImageField(upload_to='imagens/')
+
+# Cada usuario tem um carrinho. Esse carrinho só vai ter uma linha que é o 'cliente'
+
+
+class Carrinho(models.Model):
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+
+# Aqui, os úsuarios terão um item no carrinho.
 
 
 class ItemCarrinho(models.Model):

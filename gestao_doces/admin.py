@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categoria, ImagemProduct, Produto
+from .models import Categoria, ImagemProduct, Produto, Carrinho, ItemCarrinho
 
 
 @admin.register(Categoria)
@@ -21,3 +21,13 @@ class ImagemProductAdmin(admin.ModelAdmin):
     list_display = ('produto', 'imagem')
     search_fields = ('produto', 'imagem')
     list_filter = ('produto', 'imagem')
+
+
+@admin.register(Carrinho)
+class CarrinhoAdmin(admin.ModelAdmin):
+    list_display = ['cliente']  # exemplo de customização
+
+
+@admin.register(ItemCarrinho)
+class ItemCarrinhoAdmin(admin.ModelAdmin):
+    list_display = ['carrinho', 'produto', 'quantidade']

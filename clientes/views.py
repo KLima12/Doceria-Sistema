@@ -78,12 +78,32 @@ def view_specific_product(request, id):
     return render(request, "clientes/view_specific_product.html", context={"product": product})
 
 
-def adicionar_ao_carrinho(request,user_id, quantidade=1):
+def adicionar_ao_carrinho(request):
     # Obtendo o úsuario
-    if request.method == "POST": 
-        produto_id = request.get('produto')
+    if request.method == "POST":
+        # Estou pegando o ID do produto e quantidade que meu úsuario quer.
+        produto_id = request.POST.get('produto_id')
         produto = get_object_or_404(Produto, id=produto_id)
-        quantidade = request.get('quantidade')
-        
+        quantidade = int(request.POST.get('quantidade'))
 
-    
+        # Pegar ou criar o carrinho pro cliente atual
+        carrinho, _ = Carrinho.objects.get_or_create(cliente=request.user)
+
+        # Adicionando ou atualizando item no carrinho.
+        # Usei o created porque o django procura no banco de dados se já existe um item no carrinho. Ele retorna True ou False
+        item, created = ItemCarrinho.objects.get_or_create(
+            carrinho=carrinho,
+            produto=produto,
+            defaults={'quantidade': quantidade},
+        )
+        # Se o created retornar Falso, eu tenho que incrementar a quantiade
+        if not created:
+            # Incrementando na quantidade.
+            item.quantidade += quantidade
+            item.save()
+
+        messages.success("Produto adicionado ao carrinho com sucesso!")
+        return redirect("view_products")
+    else:
+        messages.error(request, "Deu algum erro inesperado")
+        return redirect("view_products")

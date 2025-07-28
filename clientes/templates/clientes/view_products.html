@@ -8,6 +8,13 @@
 <body>
     <h1>Todos produtos</h1>
 
+    {% if messages %}
+        {% for message in messages %}
+            <ul>
+                <li>{{message}}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
     {% for products in product %}
         <ul>
             <li>{{products.nome}}</li>
