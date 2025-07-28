@@ -16,13 +16,14 @@
    <h2>{{product.descricao}}</h2>
    <h3 id="preco">Preço: {{product.preco}}</h3>
    
-   <form action="{% url 'adicionar-ao-carrinho' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="produto_id" value="{{product.id}}">
-    <label for="quantidade">Selecione a quantidade</label>
-    <input type="number" id="quantidadeProduto" name="quantidade" min="1" max="50" value="1" step="1">   <p id="valor">Valor: </p>
-    
-    <button type="submit">Adicionar</button>
+   <form action="{% url 'adicionar-ao-carrinho' product.id %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="produto_id" value="{{product.id}}">
+        <label for="quantidade">Selecione a quantidade</label>
+        <input type="number" id="quantidadeProduto" name="quantidade" min="1" max="50" value="1" step="1">   
+        <p id="valor">Valor: </p>
+        
+        <button type="submit">Adicionar</button>
    </form>
 </body>
 </html>

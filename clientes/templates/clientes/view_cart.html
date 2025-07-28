@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'clientes/view_cart.css' %}">
+    <script src="{% static 'clientes/view_cart.js' %}" defer></script>
+    <title>View-cart</title>
+</head>
+<body>
+    <h1>Seu carrinho aqui</h1>
+    
+    {% for item in itens %}
+        <div class="itens">
+            <h3>{{item.produto.nome}}</h3>
+            {% with item.produto.imagens.all|first as imagem %}
+                {% if imagem %} 
+                    <img src="{{imagem.imagem.url}}" alt="Imagem do produto" width="100px">
+                {% endif %}
+            {% endwith %}
+            <input type="number" name="quantidade" class="quantidade" value="{{item.quantidade}}" min="1" max="10" step="1">
+            <p class="valor">valor: {{item.produto.preco}}</p>
+            <p class="subtotal"></p>
+        </div>
+{% endfor %}
+
+     
+</body>
+</html>

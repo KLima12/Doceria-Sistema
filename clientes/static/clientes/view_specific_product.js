@@ -1,17 +1,24 @@
-const preco = document.getElementById('preco').innerText;
-const precoValor = preco.replace(/[^\d,\.]/g, ''); // remove "Preço:" e mantém números
+const precoTexto = document.getElementById('preco').innerText;
 
-input = document.getElementById('quantidadeProduto');
-const p = document.getElementById('valor');
+    // Extrai apenas o número decimal com ponto: ex: "60.00"
+    const precoLimpo = precoTexto.match(/[\d.]+/)[0];
+    const precoNumerico = parseFloat(precoLimpo); // agora pega corretamente ex: 180.00
 
-input.addEventListener('input', () => {
-    const quantiade = parseFloat(input.value) || 0;
-    const total = quantiade * preco
-    p.textContent = `Valor: ${total.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    })}`;
-});
-p.textContent = `valor: ${valor_total}`;
+    const input = document.getElementById('quantidadeProduto');
+    const p = document.getElementById('valor');
 
-const input = document.getElementById('quantidadeProduto');
+    function atualizarValor() {
+        const quantidade = parseInt(input.value) || 0;
+        const total = quantidade * precoNumerico;
+
+        // Formata certinho no estilo BR
+        p.textContent = `Valor: ${total.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+    }
+
+    input.addEventListener('input', atualizarValor);
+    atualizarValor();

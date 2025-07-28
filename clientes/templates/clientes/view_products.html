@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Todos produtos</h1>
-
+    <a href="{% url 'view-cart' %}">Ver Carrinho</a>
     {% if messages %}
         {% for message in messages %}
             <ul>
@@ -24,6 +24,7 @@
                 {% endif %}
             {% endwith %}
         <a href="{% url 'view_specific_product' products.id %}">Ver produto</a>
+        
         </ul>
     {% endfor %}
 </body>

@@ -11,6 +11,7 @@ urlpatterns = [
          name="view_product_category"),
     path("view_specific_product/<int:id>", views.view_specific_product,
          name="view_specific_product"),
-    path("adicionar-ao-carrinho", views.adicionar_ao_carrinho,
+    path("adicionar-ao-carrinho/<int:id>", views.adicionar_ao_carrinho,
          name="adicionar-ao-carrinho"),
+    path("view-cart/", views.view_cart, name="view-cart"),
 ]

@@ -78,12 +78,11 @@ def view_specific_product(request, id):
     return render(request, "clientes/view_specific_product.html", context={"product": product})
 
 
-def adicionar_ao_carrinho(request):
+def adicionar_ao_carrinho(request, id):
     # Obtendo o úsuario
     if request.method == "POST":
         # Estou pegando o ID do produto e quantidade que meu úsuario quer.
-        produto_id = request.POST.get('produto_id')
-        produto = get_object_or_404(Produto, id=produto_id)
+        produto = get_object_or_404(Produto, id=id)
         quantidade = int(request.POST.get('quantidade'))
 
         # Pegar ou criar o carrinho pro cliente atual
@@ -102,8 +101,19 @@ def adicionar_ao_carrinho(request):
             item.quantidade += quantidade
             item.save()
 
-        messages.success("Produto adicionado ao carrinho com sucesso!")
+        messages.success(
+            request, "Produto adicionado ao carrinho com sucesso!")
         return redirect("view_products")
     else:
-        messages.error(request, "Deu algum erro inesperado")
+        messages.error(
+            request, "Deu algum erro inesperado")
         return redirect("view_products")
+
+
+def view_cart(request):
+    # Aqui eu peguei o carrinho associado ao usuario logado.
+    carrinho = get_object_or_404(Carrinho, cliente=request.user)
+    # Aqui estou fazendo um filtro pra pegar os itens do carrinho do usuario, pelo carrinho
+    itens = ItemCarrinho.objects.filter(carrinho=carrinho)
+
+    return render(request, "clientes/view_cart.html", context={'itens': itens})
