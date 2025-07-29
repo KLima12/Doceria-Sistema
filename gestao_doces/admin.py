@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categoria, ImagemProduct, Produto, Carrinho, ItemCarrinho
+from .models import *
 
 
 @admin.register(Categoria)
@@ -21,6 +21,3 @@ class ImagemProductAdmin(admin.ModelAdmin):
     list_display = ('produto', 'imagem')
     search_fields = ('produto', 'imagem')
     list_filter = ('produto', 'imagem')
-
-
-

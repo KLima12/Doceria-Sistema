@@ -1,5 +1,6 @@
 from django.db import models
 from gestao_doces.models import Produto
+from django.contrib.auth.models import User
 
 
 class Cliente(models.Model):

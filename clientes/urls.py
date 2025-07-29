@@ -14,4 +14,5 @@ urlpatterns = [
     path("adicionar-ao-carrinho/<int:id>", views.adicionar_ao_carrinho,
          name="adicionar-ao-carrinho"),
     path("view-cart/", views.view_cart, name="view-cart"),
+    path("send-whatsapp/", views.send_whatsapp, name="send-whatsapp"),
 ]

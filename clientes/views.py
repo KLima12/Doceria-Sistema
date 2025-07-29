@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from gestao_doces.models import *
@@ -112,12 +113,32 @@ def adicionar_ao_carrinho(request, id):
 
 
 def view_cart(request):
-
-    if request.method == "POST":
-        quantidade = request.POST.getlist('quantidade')
-
-    # Aqui eu peguei o carrinho associado ao usuario logado.
     carrinho = get_object_or_404(Carrinho, cliente=request.user)
     # Aqui estou fazendo um filtro pra pegar os itens do carrinho do usuario, pelo carrinho
     itens = ItemCarrinho.objects.filter(carrinho=carrinho)
+    # Aqui eu peguei o carrinho associado ao usuario logado.
+
     return render(request, "clientes/view_cart.html", context={'itens': itens})
+
+
+def send_whatsapp(request):
+    if request.method == "POST":
+        produto_ids = request.POST.getlist('produto_id')
+        quantidades = request.POST.getlist('quantidade')
+        carrinho = get_object_or_404(Carrinho, cliente=request.user)
+        # Usei zip para agrupar elementos.
+        for produto_id, quantidade in zip(produto_ids, quantidades):
+            produtos = get_object_or_404(Produto, id=produto_id)
+            quantidade = int(quantidade)
+
+            itens = ItemCarrinho.objects.create(
+                carrinho=carrinho,
+                produto=produtos,
+                quantidade=quantidade
+            )
+
+            itens.save()
+
+            
+
+    return HttpResponse("Pegou")

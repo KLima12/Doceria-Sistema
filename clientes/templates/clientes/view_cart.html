@@ -10,12 +10,12 @@
 </head>
 <body>
     <h1>Seu carrinho aqui</h1>
-    
-    {% for item in itens %}
-        <form action="{% url 'view-cart' %}" method="POST">
-            {% csrf_token %}
+    <form action="{% url 'send-whatsapp' %}" method="POST">
+        {% for item in itens %}
+        {% csrf_token %}
             <div class="itens">
                 <h3>{{item.produto.nome}}</h3>
+                <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
                 {% with item.produto.imagens.all|first as imagem %}
                     {% if imagem %} 
                         <img src="{{imagem.imagem.url}}" alt="Imagem do produto" width="100px">
@@ -27,7 +27,7 @@
             {% endfor %}
             <p class="subtotal"></p>
             <button type="submit">Enviar</button>
-        </form>
+    </form>
     
         
 
