@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from .models import *
 from gestao_doces.models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as login_django
@@ -111,9 +112,12 @@ def adicionar_ao_carrinho(request, id):
 
 
 def view_cart(request):
+
+    if request.method == "POST":
+        quantidade = request.POST.getlist('quantidade')
+
     # Aqui eu peguei o carrinho associado ao usuario logado.
     carrinho = get_object_or_404(Carrinho, cliente=request.user)
     # Aqui estou fazendo um filtro pra pegar os itens do carrinho do usuario, pelo carrinho
     itens = ItemCarrinho.objects.filter(carrinho=carrinho)
-
     return render(request, "clientes/view_cart.html", context={'itens': itens})

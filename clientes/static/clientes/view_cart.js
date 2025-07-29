@@ -1,32 +1,50 @@
-// Seleciona todos os inputs de quantidade
 const inputsQuantidade = document.querySelectorAll('.quantidade');
 
-inputsQuantidade.forEach(input => {
-    // Pega o container do item inteiro
-    const container = input.closest('.itens');
-    // Pega o elemento que mostra o preço unitário
-    const valorElem = container.querySelector('.valor');
+function atualizarSubtotal() {
+    let total = 0;
+    let soma = 0
+    document.querySelectorAll('.itens').forEach(container => {
+        const input = container.querySelector('.quantidade');
+        console.log(input)
+        const valorElem = container.querySelector('.valor');
+        // Extraindo o preço unitário do texto inicial (ex: "valor: R$ 60,00")
+        const valorTexto = valorElem.textContent;
+        const valorLimpo = valorTexto.match(/[\d,.]+/)[0].replace(',', '.');
+        const valorNumerico = parseFloat(valorLimpo);
+        total += valorNumerico;
+    });
+    const subtotal = document.querySelector(".subtotal");
+    subtotal.textContent = `Total: ${total.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
+}
 
-    // Extrai o texto do preço (ex: "valor: R$ 60,00")
+inputsQuantidade.forEach(input => {
+    const container = input.closest('.itens');
+    const valorElem = container.querySelector('.valor');
+    // Extrai o preço unitário do texto inicial (ex: "valor: R$ 60,00")
     const valorTexto = valorElem.textContent;
-    // Usa expressão regular para extrair número (com vírgula ou ponto)
-    const valorLimpo = valorTexto.match(/[\d.]+/)[0];
+    const valorLimpo = valorTexto.match(/[\d,.]+/)[0].replace(',', '.');
     const valorNumerico = parseFloat(valorLimpo);
 
     function atualizarValor() {
         const quantidade = parseInt(input.value) || 0;
         const total = quantidade * valorNumerico;
-
-        // Atualiza o texto do elemento `.valor` no formato moeda BR
         valorElem.textContent = `Valor: ${total.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL',
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         })}`;
+        atualizarSubtotal(); // Atualiza o subtotal após mudar a quantidade
     }
 
-    // Atualiza o valor quando o input mudar e na inicialização
     input.addEventListener('input', atualizarValor);
-    atualizarValor();
+    atualizarValor(); // Inicializa o valor do item
 });
+
+// Inicializa o subtotal na carga da página
+atualizarSubtotal();

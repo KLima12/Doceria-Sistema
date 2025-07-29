@@ -27,16 +27,3 @@ class ImagemProduct(models.Model):
     imagem = models.ImageField(upload_to='imagens/')
 
 # Cada usuario tem um carrinho. Esse carrinho só vai ter uma linha que é o 'cliente'
-
-
-class Carrinho(models.Model):
-    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
-
-# Aqui, os úsuarios terão um item no carrinho.
-
-
-class ItemCarrinho(models.Model):
-    carrinho = models.ForeignKey(
-        Carrinho, on_delete=models.CASCADE, related_name='itens')
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade = models.PositiveBigIntegerField(default=1)

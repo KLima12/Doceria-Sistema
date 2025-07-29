@@ -19,3 +19,16 @@ class Cliente(models.Model):
     def endereco_completo(self):
         # Usei aqui para chamar na view;
         return f"Rua {self.rua}, número {self.numero}, Bairro {self.bairro}"
+
+
+class Carrinho(models.Model):
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE)
+
+# Aqui, os úsuarios terão um item no carrinho.
+
+
+class ItemCarrinho(models.Model):
+    carrinho = models.ForeignKey(
+        Carrinho, on_delete=models.CASCADE, related_name='itens')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveBigIntegerField(default=1)

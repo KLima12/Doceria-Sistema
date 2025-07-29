@@ -23,11 +23,4 @@ class ImagemProductAdmin(admin.ModelAdmin):
     list_filter = ('produto', 'imagem')
 
 
-@admin.register(Carrinho)
-class CarrinhoAdmin(admin.ModelAdmin):
-    list_display = ['cliente']  # exemplo de customização
 
-
-@admin.register(ItemCarrinho)
-class ItemCarrinhoAdmin(admin.ModelAdmin):
-    list_display = ['carrinho', 'produto', 'quantidade']
