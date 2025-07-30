@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from gestao_doces.models import *
 from django.contrib import messages
+from urllib.parse import quote
 from django.contrib.auth import authenticate, login as login_django
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
@@ -126,19 +127,34 @@ def send_whatsapp(request):
         produto_ids = request.POST.getlist('produto_id')
         quantidades = request.POST.getlist('quantidade')
         carrinho = get_object_or_404(Carrinho, cliente=request.user)
+        message_lines = ["Olá, estou interessado(a) nos seguintes produtos: "]
+
+        soma = 0
         # Usei zip para agrupar elementos.
         for produto_id, quantidade in zip(produto_ids, quantidades):
-            produtos = get_object_or_404(Produto, id=produto_id)
+            produto = get_object_or_404(Produto, id=produto_id)
             quantidade = int(quantidade)
 
+            valor = produto.preco * quantidade
+            soma += valor
             itens = ItemCarrinho.objects.create(
                 carrinho=carrinho,
-                produto=produtos,
-                quantidade=quantidade
+                produto=produto,
+                quantidade=quantidade,
             )
-
             itens.save()
+            nome_codificado = quote(produto.nome)
+            quantidade_codificada = quote(str(quantidade))
+            message_lines.append(
+                f"{nome_codificado} x Quantidade: {quantidade_codificada}")
 
-            
+        message_lines.append(f"Valor total: R$ {soma:.2f}")
+        message_text = "%0A".join(message_lines)
+        whatsapp_url = f"https://wa.me/5581979095239?text={message_text}"
 
-    return HttpResponse("Pegou")
+        # Apagando os itens do carrinho
+        ItemCarrinho.objects.filter(carrinho=carrinho).delete()
+        return redirect(whatsapp_url)
+
+
+# Criar limpar o carrinho
