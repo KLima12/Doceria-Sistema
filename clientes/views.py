@@ -3,12 +3,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from gestao_doces.models import *
 from django.contrib import messages
-from urllib.parse import quote
+
 from django.contrib.auth import authenticate, login as login_django
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 from .forms import CadastroClienteForm, LoginForm
+from .core.send_message import *
 
 
 def cadastro(request):
@@ -81,6 +82,7 @@ def view_specific_product(request, id):
     return render(request, "clientes/view_specific_product.html", context={"product": product})
 
 
+@login_required
 def adicionar_ao_carrinho(request, id):
     # Obtendo o úsuario
     if request.method == "POST":
@@ -113,6 +115,7 @@ def adicionar_ao_carrinho(request, id):
         return redirect("view_products")
 
 
+@login_required
 def view_cart(request):
     carrinho = get_object_or_404(Carrinho, cliente=request.user)
     # Aqui estou fazendo um filtro pra pegar os itens do carrinho do usuario, pelo carrinho
@@ -127,34 +130,31 @@ def send_whatsapp(request):
         produto_ids = request.POST.getlist('produto_id')
         quantidades = request.POST.getlist('quantidade')
         carrinho = get_object_or_404(Carrinho, cliente=request.user)
-        message_lines = ["Olá, estou interessado(a) nos seguintes produtos: "]
-
+        produtos_info = []
+        somador = []
         soma = 0
         # Usei zip para agrupar elementos.
         for produto_id, quantidade in zip(produto_ids, quantidades):
             produto = get_object_or_404(Produto, id=produto_id)
             quantidade = int(quantidade)
+            somador.append((produto.preco, quantidade))
 
-            valor = produto.preco * quantidade
-            soma += valor
+            # Salvando info para mensagem
+            produtos_info.append((produto.nome, quantidade))
             itens = ItemCarrinho.objects.create(
                 carrinho=carrinho,
                 produto=produto,
                 quantidade=quantidade,
             )
             itens.save()
-            nome_codificado = quote(produto.nome)
-            quantidade_codificada = quote(str(quantidade))
-            message_lines.append(
-                f"{nome_codificado} x Quantidade: {quantidade_codificada}")
+            soma = calcular_total(somador)
+            # Gerando link com a função
+            whatsapp_url = gerar_mensagem_whatsapp(produtos_info, soma)
 
-        message_lines.append(f"Valor total: R$ {soma:.2f}")
-        message_text = "%0A".join(message_lines)
-        whatsapp_url = f"https://wa.me/5581979095239?text={message_text}"
-
-        # Apagando os itens do carrinho
+        # Apagando os itens do carrinho após úsuario enviar pro whatsapp
         ItemCarrinho.objects.filter(carrinho=carrinho).delete()
         return redirect(whatsapp_url)
 
 
-# Criar limpar o carrinho
+def delete_product_cart(request):
+    pass

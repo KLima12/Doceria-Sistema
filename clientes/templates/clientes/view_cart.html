@@ -22,6 +22,7 @@
                     {% endif %}
                 {% endwith %}
                 <input type="number" name="quantidade" class="quantidade" value="{{item.quantidade}}" min="1" max="10" step="1">
+                <a href="{% url 'delete_product' product.id %}">Excluir</a>
                 <p class="valor" data-preco="{{ item.produto.preco|floatformat:2 }}">valor: {{ item.produto.preco }}</p>
             </div>
             {% endfor %}
