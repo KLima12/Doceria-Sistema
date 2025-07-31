@@ -156,5 +156,5 @@ def send_whatsapp(request):
         return redirect(whatsapp_url)
 
 
-def delete_product_cart(request):
+def delete_product_cart(request, id):
     pass
