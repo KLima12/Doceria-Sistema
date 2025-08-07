@@ -65,3 +65,5 @@ inputsQuantidade.forEach(input => {
     input.addEventListener('input', atualizarValor);
     atualizarSubtotal(); // Inicializa o valor do item
 });
+
+

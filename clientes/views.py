@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from gestao_doces.models import *
@@ -156,5 +156,16 @@ def send_whatsapp(request):
         return redirect(whatsapp_url)
 
 
+@login_required
 def delete_product_cart(request, id):
-    pass
+    if request.method == "POST":
+        try:
+            produto = get_object_or_404(Produto, id=id)
+            carrinho = get_object_or_404(Carrinho, cliente=request.user)
+            item = get_object_or_404(
+                ItemCarrinho, produto=produto, carrinho=carrinho)
+            item.delete()
+            return JsonResponse({"status": "ok"})
+        except ItemCarrinho.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Item não encontrado"}, status=404)
+    return JsonResponse({"status": "error", "message": "Método inválido"}, status=400)

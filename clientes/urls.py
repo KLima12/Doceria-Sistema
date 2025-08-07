@@ -15,5 +15,6 @@ urlpatterns = [
          name="adicionar-ao-carrinho"),
     path("view-cart/", views.view_cart, name="view-cart"),
     path("send-whatsapp/", views.send_whatsapp, name="send-whatsapp"),
-    path("delete-product/", views.delete_product_cart, name="delete-product"),
+    path("delete-product/<int:id>/",
+         views.delete_product_cart, name="delete-product"),
 ]
