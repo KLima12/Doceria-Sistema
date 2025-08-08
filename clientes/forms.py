@@ -8,7 +8,7 @@ class CadastroClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ["nome", "email", "senha", "confirmar_senha",
-                  "telefone", "rua", "numero", "bairro"]
+                  "telefone"]
         widgets = {
             'senha': forms.PasswordInput(),
         }

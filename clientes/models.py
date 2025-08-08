@@ -10,16 +10,9 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=20)
     favoritos = models.ManyToManyField(
         Produto, blank=True, related_name="clientes_que_favoritaram")
-    rua = models.CharField(max_length=100)
-    numero = models.CharField(max_length=10)
-    bairro = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nome
-
-    def endereco_completo(self):
-        # Usei aqui para chamar na view;
-        return f"Rua {self.rua}, número {self.numero}, Bairro {self.bairro}"
 
 
 class Carrinho(models.Model):

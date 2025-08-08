@@ -1,9 +1,12 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
     path("cadastro/", views.cadastro, name="cadastro"),
     path("login/", views.login, name="login"),
     path('logout/', views.logout, name="logout"),
+    #     path('reset_password/', views.PasswordResetView.as_view(
+    #         template_name="clientes/password_reset.html"), name="password_reset"),
     path("", views.home, name="home"),
     path("category/", views.view_category, name="view_category"),
     path("view_products/", views.view_products, name="view_products"),
