@@ -15,7 +15,7 @@
         {% for item in itens %}
         {% csrf_token %}
             <div class=" itens" id="item-{{ item.id }}">
-                <h3>{{item.produto.nome}}</h3>
+                <h3 id="teste">{{item.produto.nome}}</h3>
                 <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
                 {% with item.produto.imagens.all|first as imagem %}
                     {% if imagem %} 

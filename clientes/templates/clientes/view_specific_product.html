@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'clientes/view_specific_product.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=favorite" />
     <script src="{% static 'clientes/view_specific_product.js' %}" defer></script>
     <title>Visualizar produto</title>
 </head>
@@ -15,7 +16,6 @@
     {% endfor %}
    <h2>{{product.descricao}}</h2>
    <h3 id="preco">Preço: {{product.preco}}</h3>
-   
    <form action="{% url 'adicionar-ao-carrinho' product.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="produto_id" value="{{product.id}}">
@@ -24,6 +24,11 @@
         <p id="valor">Valor: </p>
         
         <button type="submit">Adicionar</button>
+        </div>
    </form>
+   <button type="submit" id="favBtn" data-id="{{product.id}}"  class="material-symbols-outlined">
+        favorite
+    </button>
+   
 </body>
 </html>

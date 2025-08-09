@@ -1,3 +1,7 @@
+from .models import Produto, Cliente
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
@@ -27,6 +31,7 @@ def cadastro(request):
             # Pegando o nome do úsuario
             user.first_name = form.cleaned_data['nome']
             user.save()
+            cliente.user = user
             cliente.save()
             messages.success(request, "Cadastro realizado com sucesso!")
             return redirect("login")
@@ -80,6 +85,40 @@ def view_products(request):
 def view_specific_product(request, id):
     product = get_object_or_404(Produto, id=id)
     return render(request, "clientes/view_specific_product.html", context={"product": product})
+
+
+@login_required
+def add_favorite(request, id):
+    if request.method == "POST":
+        try:
+            body_unicode = request.body.decode('utf-8')
+            if not body_unicode:
+                return JsonResponse({"status": "erro", "mensagem": "Corpo da requisição vazio"}, status=400)
+
+            print("Requeste body", request.body)
+            data = json.loads(body_unicode)
+            favorito = data.get('favorito')
+
+            produto = get_object_or_404(Produto, id=id)
+            cliente = get_object_or_404(Cliente, user=request.user)
+
+            if favorito:
+                cliente.favoritos.add(produto)
+            else:
+                cliente.favoritos.remove(produto)
+
+            return JsonResponse({"status": "ok"})
+        except Exception as e:
+            return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)
+
+    return JsonResponse({"status": "erro", "mensagem": "Método inválido"}, status=405)
+
+
+@login_required
+def view_favorites(request):
+    produtos_favoritos = Produto.objects.filter(
+        clientes_que_favoritaram__user=request.user)
+    return render(request, "clientes/view_favorites.html", context={"favoritos": produtos_favoritos})
 
 
 @login_required
@@ -154,6 +193,17 @@ def send_whatsapp(request):
         # Apagando os itens do carrinho após úsuario enviar pro whatsapp
         ItemCarrinho.objects.filter(carrinho=carrinho).delete()
         return redirect(whatsapp_url)
+
+
+@login_required
+def delete_favorite(request, id):
+    try:
+        cliente = get_object_or_404(Cliente, user=request.user)
+        favorito = get_object_or_404(Produto, id=id)
+        cliente.favoritos.remove(favorito)  # Aqui removo o produto favoritos
+        return JsonResponse({"status": "ok"})
+    except Exception as e:
+        return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)
 
 
 @login_required

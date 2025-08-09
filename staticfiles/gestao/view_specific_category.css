@@ -1,0 +1,9 @@
+#inicio { 
+    text-align: center;
+}
+
+div.imagem { 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

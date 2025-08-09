@@ -1,3 +1,21 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Verifica se o cookie começa com o nome esperado
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
 const precoTexto = document.getElementById('preco').innerText;
 
     // Extrai apenas o número decimal com ponto: ex: "60.00"
@@ -22,3 +40,39 @@ const precoTexto = document.getElementById('preco').innerText;
 
     input.addEventListener('input', atualizarValor);
     atualizarValor();
+
+const favBtn = document.getElementById('favBtn');
+
+favBtn.addEventListener('click', async() => { 
+    favBtn.classList.toggle('active');
+
+    const produtoId = favBtn.dataset.id;
+    console.log('produtoId:', produtoId);
+    const isFavorito = favBtn.classList.contains('active')
+
+    try { 
+        const response = await fetch(`/favoritar-produto/${produtoId}/`, { 
+            method:'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+                favorito: isFavorito
+            })
+        });
+        const data = await response.json()
+
+        if(data.status !== 'ok') { 
+            // Caso dê erro, desfaz a classe (volta o botão)
+            favBtn.classList.toggle('active')
+            alert('Erro ao favoritar o produto')
+        }
+
+    } catch (error) { 
+        favBtn.classList.toggle('active')
+        alert('Erro na conexão')
+    }
+});
+
+

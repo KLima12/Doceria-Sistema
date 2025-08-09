@@ -1,3 +1,4 @@
-Fazer o excluir carrinho.
+Fazer hash para senha do cliente
 Fazer o 'esqueci minha senha'.
 Fazer o envio de Email pra quando o úsuario se cadastrar, vai enviar um email de confimarmação. 
+
