@@ -2,26 +2,26 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Categoria(models.Model):
-    nome = models.CharField(max_length=30)
-    imagem = models.ImageField(upload_to='categoria_imagens/')
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    image = models.ImageField(upload_to='category_images/')
 
     def __str__(self):
         return self.nome
 
 
-class Produto(models.Model):
-    nome = models.CharField(max_length=30)
-    descricao = models.TextField()
-    categoria = models.ForeignKey(
-        Categoria, on_delete=models.CASCADE, related_name="produtos")
-    preco = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
+class Product(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField()
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="products")
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
 
     def __str__(self):
-        return self.nome
+        return self.name
 
 
-class ImagemProduct(models.Model):
+class ImageProduct(models.Model):
     produto = models.ForeignKey(
-        Produto, on_delete=models.CASCADE, related_name="imagens")
-    imagem = models.ImageField(upload_to='imagens/')
+        Product, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(upload_to='images/')

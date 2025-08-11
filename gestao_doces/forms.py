@@ -1,27 +1,27 @@
 from django import forms
 from django.forms import Textarea
-from .models import Categoria, Produto, ImagemProduct
+from .models import Category, Product, ImageProduct
 
 
-class CategoriaForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
     class Meta:
-        model = Categoria
+        model = Category
         fields = "__all__"
 
 
-class ProdutoForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
     class Meta:
-        model = Produto
+        model = Product
         fields = "__all__"
         widgets = {
             "descricao": Textarea(attrs={'cols': 80, 'rows': 10})
         }
 
 
-class ImagemForm(forms.ModelForm):
+class ImageForm(forms.ModelForm):
     class Meta:
-        model = ImagemProduct
-        fields = ['imagem']
+        model = ImageProduct
+        fields = ['image']
 
 
 class LoginForm(forms.Form):

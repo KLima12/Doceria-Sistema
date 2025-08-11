@@ -9,12 +9,12 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
-        {{ form.nome.label_tag }}
-        {{ form.nome }}
+        {{ form.name.label_tag }}
+        {{ form.name }}
         </div>
         <div class="form-group">
-            {{ form.imagem.label_tag }}
-            {{ form.imagem }}
+            {{ form.image.label_tag }}
+            {{ form.image }}
             
         </div>
 

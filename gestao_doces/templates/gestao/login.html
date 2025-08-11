@@ -15,7 +15,7 @@
         {% endfor %}
     {% endif %}
     
-    <form action="{% url 'login' %}" method="POST">
+    <form action="{% url 'gestao_login' %}" method="POST">
         {% csrf_token %}
 
         <div class="login_form">

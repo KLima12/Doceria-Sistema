@@ -18,37 +18,37 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form_group">
-            {{form.nome.label_tag}}
-            {{form.nome}}
+            {{form.name.label_tag}}
+            {{form.name}}
         </div>
         <br>
         <div class="form_group">
-            {{form.descricao.label_tag}}
-            {{form.descricao}}
+            {{form.description.label_tag}}
+            {{form.description}}
         </div>
          <br>
         <div class="form_group">
-            {{form.preco.label_tag}}
-            {{form.preco}}
+            {{form.price.label_tag}}
+            {{form.price}}
         </div>
         <br>
         <div class="form_group">
-            {{form.categoria.label_tag}}
-            {{form.categoria}}
+            {{form.category.label_tag}}
+            {{form.category}}
         </div>
         <br>
         <div class="form_group">
             <label for="img">Imagem: </label>
-            {% if imagem %}
-                {% for img in imagem %}
-                    <img src="{{img.imagem.url}}" alt="Fotos da imagem" width="100px">
+            {% if image %}
+                {% for img in image %}
+                    <img src="{{img.image.url}}" alt="Fotos da imagem" width="100px">
                     <a href="{% url 'delete_imagem' img.id%}">Deletar</a>
-                    <label for="image">Adicionar imagens: <input type="file" name="imagens" multiple></label>
+                    <label for="image">Adicionar imagens: <input type="file" name="images" multiple></label>
                 {% endfor %}
             {% endif %}
 
             {% if not imagem %}
-                <label for="image">Adicionar imagens: <input type="file" name="imagens" multiple></label>
+                <label for="image">Adicionar imagens: <input type="file" name="images" multiple></label>
             {% endif %}
         </div>
         <br>

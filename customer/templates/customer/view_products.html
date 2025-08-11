@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Produtos</title>
+</head>
+<body>
+    <h1>Todos produtos</h1>
+    <a href="{% url 'view-cart' %}">Ver Carrinho</a>
+    {% if messages %}
+        {% for message in messages %}
+            <ul>
+                <li>{{message}}</li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+    {% for products in product %}
+        <ul>
+            <li>{{products.name}}</li>
+            {% with image=products.images.all.first %}
+                {% if image %}
+                    <img src="{{image.image.url}}" alt="Imagens produto" width="100px">
+                {% endif %}
+            {% endwith %}
+        <a href="{% url 'view_specific_product' products.id %}">Ver produto</a>
+        
+        </ul>
+    {% endfor %}
+</body>
+</html>

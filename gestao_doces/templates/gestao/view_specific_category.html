@@ -16,30 +16,30 @@
         {% endfor %}
     {% endif %}
     {% if categoria %}
-            <h2 id="inicio">{{categoria.nome}}</h2>
-            <div class="imagem">
-                <img src="{{categoria.imagem.url}}" alt="Imagem da categoria" width="200px">
+            <h2 id="inicio">{{category.name}}</h2>
+            <div class="image">
+                <img src="{{category.image.url}}" alt="Image Category" width="200px">
             </div>
             <div class="crud">
-                <div id="editar">
-                    <a href="{% url 'edit_category' categoria.id %}">Editar</a>
+                <div id="edit">
+                    <a href="{% url 'edit_category' category.id %}">Editar</a>
                 </div>
-                <div id="excluir">
-                    <a href="{% url 'delete_category' categoria.id %}">Excluir</a>
+                <div id="delete">
+                    <a href="{% url 'delete_category' category.id %}">Excluir</a>
                 </div>
             </div>
 
-            <div class="produtos">
+            <div class="product">
                 <a href="{% url 'register_product' %}">Adicione produto</a>
             </div>
     {% endif %}       
     
-    {% if produtos %}
+    {% if products %}
     <h2>Produtos da categoria</h2>
-    {% for produto in produtos %}
+    {% for product in products %}
     
         <ul>
-            <li><a href="{% url 'view_product' produto.id %}">{{produto.nome}}</a></li>
+            <li><a href="{% url 'view_product' product.id %}">{{product.name}}</a></li>
         </ul>
     {% endfor %}
     {% endif %}

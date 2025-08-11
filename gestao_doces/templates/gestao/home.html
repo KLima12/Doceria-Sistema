@@ -8,7 +8,7 @@
 <body>
 
     <h1>Olá, {{user.username}}</h1>
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'gestao_logout' %}">Logout</a>
     {% if messages %}
     <ul>
         {% for message in messages %}
@@ -18,7 +18,7 @@
     {% endif %}
     <h1>Bem vindo {{username}}</h1>
     <h1>Gestão dos produtos</h1>
-    <a href="{% url 'register_categoria' %}">Registrar Categoria</a>
-    <a href="{% url 'view_all_categoria' %}">Visualizar categorias</a>
+    <a href="{% url 'register_category' %}">Registrar Categoria</a>
+    <a href="{% url 'view_all_categories' %}">Visualizar categorias</a>
 </body>
 </html>
