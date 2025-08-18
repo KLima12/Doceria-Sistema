@@ -33,7 +33,7 @@ def logout(request):
 
 @login_required
 def home(request):
-    return render(request, "gestao/home.html")
+    return render(request, "gestao/gestao_home.html")
 
 
 @login_required
@@ -89,7 +89,7 @@ def delete_category(request, id):
     if request.method == "POST":
         category.delete()
         messages.success(request, "Categoria deletada com sucesso!")
-        return redirect("view_all_category")
+        return redirect("view_all_categories")
     return render(request, "gestao/delete_category.html", context={"category": category})
 
 
@@ -106,7 +106,7 @@ def register_product(request):
                 print("Imagem criada no banco de dados")
             messages.success(request, "Produto adicionado com sucesso!")
 
-            return redirect("home")
+            return redirect("gestao_home")
         else:
             messages.success(
                 request, "Produto não registrado! Tente novamente!")
@@ -132,7 +132,7 @@ def edit_product(request, id):
     if request.method == "POST":
         images = request.FILES.getlist("images")
         for img in images:
-            ImageProduct.objects.create(product=product, image=img)
+            ImageProduct.objects.create(product=product, images=img)
         if form.is_valid():
             form.save()
             messages.success(request, "Produto editado com sucesso!")
@@ -146,7 +146,7 @@ def delete_product(request, id):
     if request.method == "POST":
         product.delete()
         messages.success(request, "Produto deletado com sucesso!")
-        return redirect('view_all_category')
+        return redirect('view_all_categories')
     return render(request, "gestao/delete_product.html")
 
 

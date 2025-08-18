@@ -14,14 +14,20 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = "__all__"
         widgets = {
-            "descricao": Textarea(attrs={'cols': 80, 'rows': 10})
+            "description": Textarea(attrs={'cols': 80, 'rows': 10})
+        }
+        labels = {
+            "name": "Nome",
+            "description": "Descrição",
+            "category": "Categoria",
+            "price": "Preço",
         }
 
 
 class ImageForm(forms.ModelForm):
     class Meta:
         model = ImageProduct
-        fields = ['image']
+        fields = ['images']
 
 
 class LoginForm(forms.Form):

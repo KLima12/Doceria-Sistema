@@ -10,7 +10,7 @@
     <h2>R$: {{product.price}}</h2>
     <h3>Descrição: {{product.description}}</h3>
     {% for img in images %}
-        <img src="{{img.image.url}}" alt="Imagem do produto" width="200px">
+        <img src="{{img.images.url}}" alt="Imagem do produto" width="200px">
     {% endfor %}
     <a href="{% url 'edit_product' product.id %}">Editar</a>
     <a href="{% url 'delete_product' product.id %}">Excluir</a>

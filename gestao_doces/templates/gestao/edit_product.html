@@ -40,7 +40,7 @@
         <div class="form_group">
             <label for="img">Imagem: </label>
             {% if image %}
-                {% for img in image %}
+                {% for img in images %}
                     <img src="{{img.image.url}}" alt="Fotos da imagem" width="100px">
                     <a href="{% url 'delete_imagem' img.id%}">Deletar</a>
                     <label for="image">Adicionar imagens: <input type="file" name="images" multiple></label>

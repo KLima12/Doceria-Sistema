@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'gestao/register_category.css' %}">
+    <script src="{% static 'gestao/register_category.js' %}"></script>
+    <title>Register Categoria</title>
+</head>
+<body>
+    <h1>Registrando Categoria</h1>
+
+    <h2>Preencha o formulário de Categoria abaixo</h2>
+    
+    <form action="{% url 'register_category' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_table}}
+
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>

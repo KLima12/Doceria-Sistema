@@ -14,10 +14,14 @@
             </ul>
         {% endfor %}
     {% endif %}
-    {% for category in categories %}
-        <ul>
-           <a href="{% url 'view_specific_category' category.id %}"> <li>{{category.name}}</li></a>
-        </ul>
-    {% endfor %}
+    {% if categories %}
+        {% for category in categories %}
+            <ul>
+            <a href="{% url 'view_specific_category' category.id %}"> <li>{{category.name}}</li></a>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <a href="{% url 'register_category' %}">Clique aqui para adicionar</a>
+    {% endif %}
 </body>
 </html>
