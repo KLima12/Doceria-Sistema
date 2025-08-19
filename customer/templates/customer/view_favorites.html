@@ -14,7 +14,7 @@
             <li>{{favorite.name}}</li>
             {% with img=favorite.images.all.first %}
                 {% if img %}
-                    <img src="{{img.image.url}}" alt="Imagem do produto" width="100px">
+                    <img src="{{img.images.url}}" alt="Images Product" width="100px">
                 {% endif %}
             <button class="btn-delete"  data-favorite-id="{{favorite.id}}">Excluir</button>
             {% endwith %}

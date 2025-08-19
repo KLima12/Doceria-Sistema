@@ -14,17 +14,18 @@
     <form action="{% url 'send-whatsapp' %}" method="POST">
         {% for item in itens %}
         {% csrf_token %}
-            <div class=" itens" id="item-{{ item.id }}">
+            <div class=" itens" id="item-{{ item.product.id }}">
                 <h3 id="teste">{{item.product.name}}</h3>
-                <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
+                <input type="hidden" name="product_id" value="{{ item.product.id }}">
                 {% with item.product.images.all|first as image %}
                     {% if image %} 
-                        <img src="{{image.image.url}}" alt="Imagem do produto" width="100px">
+                        <img src="{{image.images.url}}" alt="Imagem do produto" width="100px">
                     {% endif %}
                 {% endwith %}
                 <input type="number" name="amount" class="amount" value="{{item.amount}}" min="1" max="10" step="1">
-                <button class="btn-excluir" data-id="{{item.product.id}}">Excluir</button>
-                <p class="value" data-preco="{{ item.product.price|floatformat:2 }}">valor: {{ item.product.price }}</p>
+                
+                <button class="btn-delete" data-id="{{item.product.id}}">Excluir</button>
+                <p class="value" data-price="{{ item.product.price|floatformat:2 }}">valor: {{ item.product.price }}</p>
             </div>
             {% endfor %}
             <p class="subtotal"></p>

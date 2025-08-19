@@ -17,26 +17,23 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 
 const priceText = document.getElementById('price').innerText;
-
-    // Extrai apenas o número decimal com ponto: ex: "60.00"
-    const cleanPrice = priceText.match(/[\d.]+/)[0];
-    const numericalPrice = parseFloat(cleanPrice); // agora pega corretamente ex: 180.00
-
-    const input = document.getElementById('amountProduto');
-    const p = document.getElementById('value');
-
-    function updateValue() {
-        const amount = parseInt(input.value) || 0;
-        const total = amount * numericalPrice;
-
-        // Formata certinho no estilo BR
-        p.textContent = `Valor: ${total.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`;
-    }
+// Aceita número com vírgula ou ponto
+const cleanPrice = priceText.match(/[\d.,]+/)[0].replace(',', '.');
+const numericalPrice = parseFloat(cleanPrice);
+const input = document.getElementById('amountProduct');
+const p = document.getElementById("value"); 
+function updateValue() {
+    const amount = parseInt(input.value) || 0;
+    const total = amount * numericalPrice;
+    console.log(total)
+    
+    p.textContent = `Valor: ${total.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
+}
 
     input.addEventListener('input', updateValue);
     updateValue();
@@ -44,34 +41,33 @@ const priceText = document.getElementById('price').innerText;
 const favBtn = document.getElementById('favBtn');
 
 favBtn.addEventListener('click', async() => { 
-    favBtn.classList.toggle('active');
-
-    const productId = favBtn.dataset.id;
-    console.log('produtoId:', productId);
-    const isFavorite = favBtn.classList.contains('active')
+    const productId = favBtn.dataset.id; // Pegando id lá do produto no html
+    const isFavorite = !favBtn.classList.contains('active'); // define o novo estado
 
     try { 
-        const response = await fetch(`/favoritar-produto/${productId}/`, { 
+        const response = await fetch(`/favorited-product/${productId}/`, { 
             method:'POST',
             headers: { 
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
-            body: JSON.stringify({
-                favorito: isFavorite
-            })
+            body: JSON.stringify({ favorite: isFavorite })
         });
-        const data = await response.json()
 
-        if(data.status !== 'ok') { 
-            // Caso dê erro, desfaz a classe (volta o botão)
-            favBtn.classList.toggle('active')
-            alert('Erro ao favoritar o produto')
+        const data = await response.json();
+
+        if(data.status === 'ok') { 
+            if (isFavorite) {
+                favBtn.classList.add('active');
+            } else {
+                favBtn.classList.remove('active');
+            }
+        } else { 
+            alert('Erro ao favoritar o produto');
         }
 
     } catch (error) { 
-        favBtn.classList.toggle('active')
-        alert('Erro na conexão')
+        alert('Erro na conexão');
     }
 });
 

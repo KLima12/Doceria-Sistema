@@ -22,6 +22,8 @@ def generate_whatsapp_message(product, sum):
 
     message_lines = ["Olá, estou interessado(a) nos seguintes produtos: "]
     for name, amount in product:
+        print(f"Nome: {name}")
+        print(f"A quantidade: {amount}")
         name_cod = encode_for_whatsapp(name)
         qtd_cod = encode_for_whatsapp(amount)
         message_lines.append(f"{name_cod} X Quantidade: {qtd_cod}")

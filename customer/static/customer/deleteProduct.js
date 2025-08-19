@@ -18,8 +18,8 @@ const csrftoken = getCookie('csrftoken');
 
 
 // Capturando todos os botões de exclusão
-document.querySelectorAll('.btn-delete').forEach(botao => { 
-    botao.addEventListener('click', async function(event) { 
+document.querySelectorAll('.btn-delete').forEach(button => { 
+    button.addEventListener('click', async function(event) { 
         event.preventDefault();
         const itemId = this.dataset.id; // Pega id do item
 

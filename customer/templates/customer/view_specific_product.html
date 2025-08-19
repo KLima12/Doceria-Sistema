@@ -12,23 +12,24 @@
 <body>
    <h1>{{product.nome}}</h1>
    {% for img in product.images.all %}
-        <img src="{{img.imagem.url}}" alt="Imagem do produto" width="100px">
+        <img src="{{img.images.url}}" alt="Imagem do produto" width="100px">
     {% endfor %}
    <h2>{{product.description}}</h2>
    <h3 id="price">Preço: {{product.price}}</h3>
-   <form action="{% url 'adicionar-ao-carrinho' product.id %}" method="POST">
+   <form action="{% url 'add-to-cart' product.id %}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="product_id" value="{{product.id}}">
         <label for="amount">Selecione a quantidade</label>
         <input type="number" id="amountProduct" name="amount" min="1" max="50" value="1" step="1">   
-        <p id="value">Valor: </p>
+        <p id="value">Total: </p>
         
         <button type="submit">Adicionar</button>
         </div>
    </form>
-   <button type="submit" id="favBtn" data-id="{{product.id}}"  class="material-symbols-outlined">
+    <button type="button" id="favBtn" data-id="{{product.id}}" class="material-symbols-outlined  {% if user.customer in product.customer_who_favorited.all %}active{% endif %}">
         favorite
     </button>
+
    
 </body>
 </html>

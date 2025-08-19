@@ -8,7 +8,9 @@ function atualizarSubtotal() {
     document.querySelectorAll('.itens').forEach(container => {
         const input = container.querySelector('.amount');
         const valueElem = container.querySelector('.value');
+        console.log(`ValueElement?: ${valueElem}`)
         const unitaryPriceText = valueElem.getAttribute('data-price');
+        console.log(`Unitary: ${unitaryPriceText}`)
         const unitprice = parseFloat(unitaryPriceText);
         const amount = parseInt(input.value) || 0;
         
@@ -44,7 +46,7 @@ const inputsAmount = document.querySelectorAll('.amount')
 
 inputsAmount.forEach(input => {
     const container = input.closest('.itens');
-    const valueElem = container.querySelector('.valor');
+    const valueElem = container.querySelector('.value');
     // Extrai o preço unitário do texto inicial (ex: "valor: R$ 60,00")
     const textValue = valueElem.textContent;
     const cleanValue = textValue.match(/[\d,.]+/)[0].replace(',', '.');

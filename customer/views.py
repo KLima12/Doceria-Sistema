@@ -49,7 +49,7 @@ def login(request):
 
             if user:
                 login_django(request, user)
-                return redirect('home')
+                return redirect('customer_home')
         else:
             messages.error(request, "Formulário invalido!")
     else:
@@ -59,7 +59,7 @@ def login(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('home')
+    return redirect('customer_home')
 
 
 def home(request):
@@ -97,6 +97,7 @@ def add_favorite(request, id):
             print("Requeste body", request.body)
             data = json.loads(body_unicode)
             favorite = data.get('favorite')
+            print(f"Favorito chegou: {favorite}")
 
             product = get_object_or_404(Product, id=id)
             customer = get_object_or_404(Customer, user=request.user)
@@ -115,8 +116,9 @@ def add_favorite(request, id):
 
 @login_required
 def view_favorites(request):
+    customer = request.user.customer
     products_favorites = Product.objects.filter(
-        customer_who_favorited=request.user)
+        customer_who_favorited=customer)
     return render(request, "customer/view_favorites.html", context={"favorites": products_favorites})
 
 
@@ -166,16 +168,17 @@ def view_cart(request):
 def send_whatsapp(request):
     if request.method == "POST":
         product_ids = request.POST.getlist('product_id')
-        amount = request.POST.getlist('amount')
+        print(f"Produtos: {product_ids}")
+        amount_product = request.POST.getlist('amount')
         cart = get_object_or_404(Cart, customer=request.user)
         product_info = []
         adder = []
         sum = 0
         # Usei zip para agrupar elementos.
-        for product_ids, amounts in zip(product_ids, amounts):
+        for product_ids, amounts in zip(product_ids, amount_product):
             product = get_object_or_404(Product, id=product_ids)
             amount = int(amounts)
-            adder.append((product.preco, amount))
+            adder.append((product.price, amount))
 
             # Salvando info para mensagem
             product_info.append((product.name, amount))
@@ -187,7 +190,7 @@ def send_whatsapp(request):
             itens.save()
             sum = calculate_total(adder)
             # Gerando link com a função
-            whatsapp_url = encode_for_whatsapp(product_info, sum)
+        whatsapp_url = generate_whatsapp_message(product_info, sum)
 
         # Apagando os itens do carrinho após úsuario enviar pro whatsapp
         CartProduct.objects.filter(cart=cart).delete()
@@ -199,7 +202,7 @@ def delete_favorite(request, id):
     try:
         customer = get_object_or_404(Customer, user=request.user)
         favorite = get_object_or_404(Product, id=id)
-        customer.favoritos.remove(favorite)  # Aqui removo o produto favoritos
+        customer.favorites.remove(favorite)  # Aqui removo o produto favoritos
         return JsonResponse({"status": "ok"})
     except Exception as e:
         return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)

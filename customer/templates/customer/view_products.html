@@ -20,7 +20,7 @@
             <li>{{products.name}}</li>
             {% with image=products.images.all.first %}
                 {% if image %}
-                    <img src="{{image.image.url}}" alt="Imagens produto" width="100px">
+                    <img src="{{image.images.url}}" alt="Imagens produto" width="100px">
                 {% endif %}
             {% endwith %}
         <a href="{% url 'view_specific_product' products.id %}">Ver produto</a>

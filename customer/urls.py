@@ -5,6 +5,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", views.login, name="customer_login"),
     path('logout/', views.logout, name="customer_logout"),
+    
     # Tela de solicitação de redefinição de senha
     path('password-reset/',
          auth_views.PasswordResetView.as_view(template_name='customer/password_reset.html'), name='password_reset'),
@@ -19,13 +20,13 @@ urlpatterns = [
         template_name='customer/password_reset_complete.html'), name='password_reset_complete'),
     path("", views.home, name="customer_home"),
     path("category/", views.view_category, name="view_category"),
-    path("view_products/", views.view_products, name="view_products"),
+    path("view-products/", views.view_products, name="view_products"),
     path("view_product_category/<int:id>", views.view_product_category,
          name="view_product_category"),
     path("view-favorites/", views.view_favorites, name="view_favorites"),
     path("delete-favorite/<int:id>/",
          views.delete_favorite, name="delete-favorite"),
-    path("view_specific_product/<int:id>", views.view_specific_product,
+    path("view-specific_product/<int:id>", views.view_specific_product,
          name="view_specific_product"),
     path("add-to-cart/<int:id>", views.add_to_cart,
          name="add-to-cart"),
