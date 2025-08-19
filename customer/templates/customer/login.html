@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'customer/login/login.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cookie" />
     <title>Login</title>
 </head>
 <body>
@@ -10,14 +13,18 @@
 
     <form action="{% url 'customer_login' %}" method="POST">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
 
-        <button type="submit">Login</button>
+        <div class="form">
+           <h2>Sweet Delights</h2>
+           <p>bakery</p>
+            {{form.email}}
+            {{form.password}}
+            <button type="submit">Login</button>
+            <p>
+                Esqueceu a senha ? <br><a href="{% url 'password_reset' %}">Clique aqui</a>
+            </p>
+        </div>
     </form>
-    <p>
-        <a href="{% url 'password_reset' %}">Esqueci a senha</a>
-    </p>
+    
 </body>
 </html>

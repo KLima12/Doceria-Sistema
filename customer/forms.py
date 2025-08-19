@@ -21,8 +21,14 @@ class RegisterCustomerForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(label="Senha", widget=forms.PasswordInput)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'input-field',
+        'placeholder': 'Digite seu Email'
+    }))
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput(attrs={
+        'class': 'input-field',
+        'placeholder': 'Digite sua senha',
+    }))
 
 
 def clean(self):
