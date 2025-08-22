@@ -73,7 +73,10 @@ def view_category(request):
 
 def view_product_category(request, id):
     category = get_object_or_404(Category, id=id)
-    return render(request, "customer/view_product_category.html", context={'category': category})
+    cart = get_object_or_404(Cart, customer=request.user)
+    has_products = CartProduct.objects.filter(
+        cart=cart).exists() if cart else False
+    return render(request, "customer/view_product_category.html", context={'category': category, 'has_products': has_products})
 
 
 def view_products(request):
@@ -126,33 +129,39 @@ def view_favorites(request):
 def add_to_cart(request, id):
     # Obtendo o úsuario
     if request.method == "POST":
-        # Estou pegando o ID do produto e quantidade que meu úsuario quer.
-        product = get_object_or_404(Product, id=id)
-        amount = int(request.POST.get('amount'))
+        try:
+            body_unicode = request.body.decode('utf-8')
+            if not body_unicode:
+                return JsonResponse({"status": "erro", "mensagem": "Corpo da requisição vazio"}, status=400)
+            print("request body", request.body)
+            data = json.loads(body_unicode)
+            print(data)
+            # Estou pegando o ID do produto e quantidade que meu úsuario quer.
+            product = get_object_or_404(Product, id=id)
+            print(f"{product}")
+            amount = int(data.get('amount'))
+            print(f"{amount}")
+            # Pegar ou criar o carrinho pro cliente atual
+            cart, _ = Cart.objects.get_or_create(customer=request.user)
 
-        # Pegar ou criar o carrinho pro cliente atual
-        cart, _ = Cart.objects.get_or_create(customer=request.user)
+            # Adicionando ou atualizando item no carrinho.
+            # Usei o created porque o django procura no banco de dados se já existe um item no carrinho. Ele retorna True ou False
+            item, created = CartProduct.objects.get_or_create(
+                cart=cart,
+                product=product,
+                defaults={'amount': amount},
+            )
+            # Se o created retornar Falso, eu tenho que incrementar a quantidade
+            if not created:
+                # Incrementando na quantidade.
+                item.amount += amount
+                item.save()
 
-        # Adicionando ou atualizando item no carrinho.
-        # Usei o created porque o django procura no banco de dados se já existe um item no carrinho. Ele retorna True ou False
-        item, created = CartProduct.objects.get_or_create(
-            cart=cart,
-            product=product,
-            defaults={'amount': amount},
-        )
-        # Se o created retornar Falso, eu tenho que incrementar a quantidade
-        if not created:
-            # Incrementando na quantidade.
-            item.amount += amount
-            item.save()
-
-        messages.success(
-            request, "Produto adicionado ao carrinho com sucesso!")
-        return redirect("view_products")
-    else:
-        messages.error(
-            request, "Deu algum erro inesperado")
-        return redirect("view_products")
+            messages.success(
+                request, "Produto adicionado ao carrinho com sucesso!")
+            return JsonResponse({"status": "ok"})
+        except Exception as e:
+            return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)
 
 
 @login_required

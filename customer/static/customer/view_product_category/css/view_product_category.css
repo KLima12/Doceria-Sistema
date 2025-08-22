@@ -1,0 +1,40 @@
+header { 
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+form { 
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    border: 1px solid black;
+}
+
+div.products { 
+    border: 1px solid black;
+}
+
+div.products > img { 
+    width: 150px;
+    height: 100px;
+} 
+
+.favBtn {
+  cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease;
+}
+
+.favBtn.active {
+  color: red;
+}
+
+.cart.active_green { 
+  color: green;
+}
+
+@media screen and (min-width: 600px) {
+    
+}

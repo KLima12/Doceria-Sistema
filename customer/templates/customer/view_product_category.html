@@ -5,19 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'customer/view_product_category/css/view_product_category.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <script src="{% static 'customer/view_product_category/js/view_product_category.js' %}" defer></script>
     <title>Produtos da categoria</title>
 </head>
 <body>
-    <h1>Produtos da Categoria</h1>
+    <header>
+        <a href="{% url 'customer_home' %}">Home</a>
+        <h1>Produtos da Categoria</h1>
+            <a href="{% url 'view-cart' %}"><span class="cart material-symbols-outlined {% if has_products %}active_green{% endif %}">shopping_cart</span></a>
+    </header>
     {% for product in category.products.all %}
-        {% with image=product.images.all.first %}
-            {% if image %}
-                <img src="{{image.images.url}}" alt="Imagem do produto" width="100px">
-            {% endif %}
-    <a href="{% url 'view_specific_product' product.id%}">Ver produto</a>
-        {% endwith %}
-            
-        </ul>
+        <form action="{% url 'add-to-cart' product.id %}" method="POST">
+            {% csrf_token %}
+            <div class="products">
+                {% with image=product.images.all.first %}
+                    {% if image %}
+                        <img src="{{image.images.url}}" alt="Imagem do produto" width="100px">
+                    {% endif %}
+                {% endwith %}
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <label for="amount">Selecione a quantidade</label>
+                    <input type="number" class="amountProduct" data-id="{{product.id}}" name="amount" min="1" max="50" value="1" step="1">   
+                    <p class="value">Preço: {{product.price}}</p>
+                    <button type="submit" class="addProduct">Adicionar</button>
+                    <button type="button" class="favBtn material-symbols-outlined {% if user.customer in product.customer_who_favorited.all %}active{% endif %}" data-id="{{product.id}}">
+                        favorite
+                    </button> 
+            </div>
+        </form>
+        
+        
     {% endfor %}
 </body>
 </html>
