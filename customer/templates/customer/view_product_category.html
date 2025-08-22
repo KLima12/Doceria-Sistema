@@ -1,21 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'customer/view_product_category/css/view_product_category.css' %}">
     <title>Produtos da categoria</title>
 </head>
 <body>
     <h1>Produtos da Categoria</h1>
     {% for product in category.products.all %}
-        <ul>
-            <li>{{product.name}}</li>
-            {% with image=product.images.all.first %}
-                {% if image %}
-                    <img src="{{image.images.url}}" alt="Imagem do produto" width="100px">
-                {% endif %}
-        <a href="{% url 'view_specific_product' product.id%}">Ver produto</a>
-            {% endwith %}
+        {% with image=product.images.all.first %}
+            {% if image %}
+                <img src="{{image.images.url}}" alt="Imagem do produto" width="100px">
+            {% endif %}
+    <a href="{% url 'view_specific_product' product.id%}">Ver produto</a>
+        {% endwith %}
             
         </ul>
     {% endfor %}

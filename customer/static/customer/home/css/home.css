@@ -1,0 +1,82 @@
+body { 
+    background-color: white;
+}
+
+header {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height:80px;
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    top: 0;
+    left: 0;
+    z-index: 1000;  
+}
+
+a.link-account { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: black;
+    border: 1px solid black;
+}
+
+main { 
+    display: flex;
+    flex-direction: column;
+    background-image: url(../../img/imagem_home.png);
+    background-repeat: no-repeat;
+    background-position: center;
+     background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 700px;
+    color: white;
+}
+
+section.top-navigation { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+
+}
+
+section.top-navigation > p#title { 
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+}
+
+
+.cupcake { 
+    filter: brightness(0) invert(1);
+}
+
+p#cadastro { 
+    font-size: 20px;
+}
+
+#link_login { 
+    color: white;
+    border: 1px solid white;
+    padding: 5px;
+}
+
+p#title-links { 
+    font-size: 20px;
+}
+
+button { 
+    background-color: white;
+    margin-top: 5px;
+    width: 140px;
+    height: 70px;
+}
+
+a.links { 
+    color: black;
+}
+
+

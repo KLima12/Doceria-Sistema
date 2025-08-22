@@ -1,0 +1,53 @@
+header { 
+        display: flex;
+        height: 100px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid black;
+}
+
+
+div.container { 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+
+    }
+
+div.categories > a > img { 
+    width:200px;
+    height: 200px;
+    
+}
+
+div.categories > h2 { 
+    text-align: center;
+}
+
+@media screen and (min-width:600px) {
+    header { 
+    height: 100px;
+    text-align: center;
+}
+div.container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 300px));
+    gap: 20px;
+    justify-content: center; 
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    height: calc(80vh - 100px);
+}
+
+div.categorias > img { 
+    width:200px;
+    height: 200px;
+    
+}
+}
+
+

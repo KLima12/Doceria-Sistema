@@ -1,19 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'customer/register/css/register.css' %}">
     <title>Cadastro</title>
 </head>
 <body>
     <form action="{% url 'register' %}" method="POST">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <button type="submit">Cadastrar</button>
+        <p id="title">Sweet Delights<br>Bakery</p>
+            <img src="{% static 'customer/img/cupcake-svgrepo-com.svg' %}" height="70px" alt="SVG">
+        
+        <section class="middle">    
+            {{form}}
+            <button type="submit" class="medium">Cadastrar</button>
+        </section>
+        
+        <section class="LoginClick">
+            <p class="medium">
+                Já tem conta ? <br>
+                <a href="{% url 'customer_login' %}">Login</a>
+            </p>
+        </section>
     </form>
 
-    <a href="{% url 'login' %}">Já tem uma conta ? Clique aqui para logar</a>
+    
 </body>
 </html>

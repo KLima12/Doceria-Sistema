@@ -1,0 +1,10 @@
+.material-symbols-outlined {
+  cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease;
+}
+
+.material-symbols-outlined.active {
+  color: red;
+}
+

@@ -1,0 +1,15 @@
+body { 
+    background-image: url(../../img/Gemini_Generated_Image_e3wz0me3wz0me3wz.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+h1 { 
+    color: white;
+}
+
+section.midlle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

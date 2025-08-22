@@ -1,16 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'customer/view_category/css/view_category.css' %}">
     <title>Categorias</title>
 </head>
 <body>
-    <h1>Categorias</h1>
-    {% for categories in category %}
-        <ul>
-            <a href="{% url 'view_product_category' categories.id %}"><li>{{categories.name}}</li></a>
-        </ul>
-    {% endfor %}
+    <header>
+        <h1>Categorias</h1>
+    </header>
+
+    <div class="container">
+        {% for categories in category %}
+            <div class="categories">
+                <a href="{% url 'view_product_category' categories.id%}"><img src="{{categories.image.url}}" alt="Imagem da categoria"></a>
+                <h2>{{categories.name}}</h2>
+             </div>
+        {% endfor %} 
+    </div>
+        
+    
 </body>
 </html>

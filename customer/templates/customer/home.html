@@ -1,21 +1,51 @@
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'customer/home/css/home.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cookie" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=cookie" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <title>Bem vindo</title>
 </head>
 <body>
-    <h1>Bem vindo {{user.first_name}}</h1>
-    {% if user.is_authenticated %}
-        <a href="{% url 'customer_logout' %}">Logout</a>
-    {% else %}
-         <a href="{% url 'register' %}">Cadastre em nosso site</a>
-        <a href="{% url 'customer_login' %}">Faça login</a>
-    {% endif %}
-    <h3>Veja as categorias</h3>
-    <a href="{% url 'view_category' %}">Ver Categorias</a>
-    <a href="{% url 'view_products' %}">Ver todos produtos</a>
-    <a href="{% url 'view_favorites' %}">Ver favoritos</a>
+        <header>
+            <h1>Bem vindo {{user.first_name}}</h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'customer_logout' %}" class="link-account">Logout</a>
+            {% else %}
+                <a href="{% url 'customer_login' %}" class="link-account">Faça login</a>
+            {% endif %}
+        </header>
+    
+    <main>
+        <section class="top-navigation">
+            <img src="{% static 'customer/img/cupcake-svgrepo-com.svg' %}" class="cupcake" height="70px" alt="SVG">
+            <p id="title">Doces Deliciosos
+                <br> 
+                Padaria
+            </p>
+            {% if not user.is_authenticated %}
+                <p id="cadastro">
+                    Cadastre em nosso site - <a href="{% url 'register' %}" id="link_login">Faça Login</a>
+                </p>
+            {% endif %}
+            
+            <p id="title-links">Descubra oque temos para você</p>
+            <button><a href="{% url 'view_category' %}" class="links">Categorias</a></button>
+            <button><a href="{% url 'view_products' %}" class="links">Produtos</a></button>
+            <button><a href="{% url 'view_favorites' %}" class="links">Favoritos</a></button>
+            
+        </section>
+    </main>
+    
+    
 </body>
 </html>
